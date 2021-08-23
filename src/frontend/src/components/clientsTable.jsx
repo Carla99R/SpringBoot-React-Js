@@ -1,20 +1,16 @@
 import {Table} from 'antd';
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
 const ClientsTable = (props) => {
 
-    const [columns, setColumns] = useState("");
-    const [data, setData] = useState("");
-
     useEffect(() => {
-        setColumns(props.columns);
-        setData(props.data);
-
+        console.log(props.values)
     }, [])
 
     return (
-       "HOLA"
-        // <Table columns={columns} dataSource={data}/>
+        <>
+            <Table columns={props.cols} dataSource={props.values} pagination={{pageSize: 10}} scroll={{y: 240}}/>
+        </>
     )
 
 }

@@ -12,12 +12,13 @@ import java.util.List;
 public class StudentController {
 
     @GetMapping
-    public List<Student> getAllStudents(){
-        List<Student> students = Arrays.asList(new Student(
-                1L,
-                "Jamila",
-                "jamila@amigoscode.edu",
-                Gender.FEMALE
+    public List<Student> getAllStudents() {
+        List<Student> students = Arrays.asList(
+                new Student(
+                        1L,
+                        "Jamila",
+                        "jamila@amigoscode.edu",
+                        Gender.FEMALE
                 ),
                 new Student(
                         2L,
@@ -26,7 +27,7 @@ public class StudentController {
                         Gender.MALE
                 )
 
-                );
+        );
 
         return students;
     }
