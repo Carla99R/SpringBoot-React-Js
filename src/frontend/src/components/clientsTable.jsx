@@ -1,15 +1,22 @@
-import {Table} from 'antd';
-import {useEffect} from "react";
+import {Button, Divider, Table} from 'antd';
+import styles from '../styles/client.module.css';
+import {PlusOutlined} from "@ant-design/icons";
+import {useState} from "react";
+import NewClient from "./drawer";
 
 const ClientsTable = (props) => {
-
-    useEffect(() => {
-        console.log(props.values)
-    }, [])
+    const [showDrawer, setShowDrawer] = useState(false);
 
     return (
         <>
-            <Table columns={props.cols} dataSource={props.values} pagination={{pageSize: 10}} scroll={{y: 240}}/>
+            <Button className={styles.boton} onClick={() => setShowDrawer(!showDrawer)} icon={<PlusOutlined/>}>Add
+                student</Button>
+            <NewClient
+                showDrawer={showDrawer}
+                setShowDrawer={setShowDrawer}
+            />
+            <Divider/>
+            <Table columns={props.cols} dataSource={props.values} scroll={{y: 350}}/>
         </>
     )
 
