@@ -11,6 +11,8 @@ import {
 
 import styles from '../styles/client.module.css';
 import ClientsTable from '../components/clientsTable';
+import Logo from '../assets/images/logo.svg'
+import LogoComprimido from '../assets/images/switch.svg'
 
 const Client = () => {
 
@@ -99,7 +101,10 @@ const Client = () => {
             <Layout style={{minHeight: '100vh'}}>
                 <Sider collapsible collapsed={collapsed}
                        onCollapse={setCollapsed}>
-                    <div className="logo"/>
+                    <div className={styles.logo}>
+                        {collapsed ? <img src={LogoComprimido} alt={"logo"} width={40} height={50}/> :
+                            <img src={Logo} alt={"logo"} width={100} height={50}/>}
+                    </div>
                     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                         <Menu.Item key="1" icon={<PieChartOutlined/>}>
                             Option 1
@@ -121,25 +126,23 @@ const Client = () => {
                         </Menu.Item>
                     </Menu>
                 </Sider>
-                <Layout className={styles.bg}>
-                    <Header className={styles.bg} style={{padding: 0}}/>
-                    <Content style={{margin: '0 16px'}}>
-                        <Breadcrumb style={{margin: '16px 0'}}>
-                            <Breadcrumb.Item>User</Breadcrumb.Item>
-                            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                        </Breadcrumb>
-                        <div className={styles.bg} style={{padding: 24, minHeight: 360}}>
-                            {loading ?
-                                <div className={styles.spin}>
-                                    <Spin tip="Loading..." size="large"/>
-                                </div>
-                                :
-                                <ClientsTable cols={columns} values={data}/>
-                            }
-                        </div>
-                    </Content>
-                    <Footer style={{textAlign: 'center'}}>By Carla Rodríguez (2021)</Footer>
-                </Layout>
+                <Header className={styles.bg} style={{padding: 0}}/>
+                <Content style={{margin: '16px 20px'}}>
+                    <Breadcrumb style={{margin: '16px 0'}}>
+                        <Breadcrumb.Item>User</Breadcrumb.Item>
+                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <div className={styles.bg} style={{padding: 24, minHeight: 600}}>
+                        {loading ?
+                            <div className={styles.spin}>
+                                <Spin tip="Loading..." size="large"/>
+                            </div>
+                            :
+                            <ClientsTable cols={columns} values={data}/>
+                        }
+                    </div>
+                </Content>
+                {/*<Footer style={{textAlign: 'center'}}>By Carla Rodríguez (2021)</Footer>*/}
             </Layout>
 
         </>
@@ -149,4 +152,3 @@ const Client = () => {
 
 
 export default Client;
-
