@@ -1,6 +1,6 @@
 import fetch from 'unfetch';
 import React, {useState, useEffect} from 'react'
-import {Layout, Menu, Breadcrumb, Spin, Empty} from 'antd';
+import {Layout, Menu, Breadcrumb, Spin, Empty, Tag, Badge} from 'antd';
 import {
     DesktopOutlined,
     PieChartOutlined,
@@ -107,7 +107,7 @@ const Client = () => {
                     </div>
                     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                         <Menu.Item key="1" icon={<PieChartOutlined/>}>
-                            Option 1
+                            Students
                         </Menu.Item>
                         <Menu.Item key="2" icon={<DesktopOutlined/>}>
                             Option 2
@@ -138,7 +138,7 @@ const Client = () => {
                                 <Spin tip="Loading..." size="large"/>
                             </div>
                             :
-                            <ClientsTable cols={columns} values={data}/>
+                            <ClientsTable cols={columns} values={data} fetchStudents={fetchStudents} students={students.length}/>
                         }
                     </div>
                 </Content>
