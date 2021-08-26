@@ -3,6 +3,7 @@ import styles from '../styles/client.module.css';
 import React, {Component, useState} from "react";
 import fetch from "unfetch";
 import {successNotification, errorNotification} from "./notification";
+import useWindowDimensions from "./windowsDimensions";
 
 const {Option} = Select;
 
@@ -62,6 +63,8 @@ const NewClient = (props) => {
         })
     }
 
+    const {height, width} = useWindowDimensions();
+
     return (
         <>
             <Drawer
@@ -70,10 +73,10 @@ const NewClient = (props) => {
                         <p className={styles.title}>Create new student</p>
                     </div>
                 }
-                width={500}
+                width={width <= 700 ? width : 500}
                 onClose={onClose}
                 visible={props.showDrawer}
-                bodyStyle={{paddingBottom: 60}}
+                bodyStyle={{paddingBottom: 90, overflow: 'hidden'}}
             >
                 <div className={styles.client}>
                     <img

@@ -7,6 +7,53 @@
     pointer-events: none;
 }
 
+@media (max-width: 478px) {
+
+    .ant-table-row {
+        width: 100%;
+        /*max-width: 320px !important;*/
+
+    }
+
+    tr {
+        width: 100%;
+    }
+
+
+    .ant-table-cell {
+        display: inline-block !important;
+        max-width: 220px !important;
+        position: absolute;
+        font-size: 14px;
+    }
+
+    .ant-table-tbody {
+        white-space: nowrap !important;
+    }
+
+    .ant-table-pagination.ant-pagination {
+        display: block;
+        overflow-x: scroll;
+    }
+
+    .ant-pagination-item {
+        display: none !important;
+    }
+
+    .ant-pagination-jump-next {
+        display: none !important;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    .client_bg__V-DYR {
+        padding: 0;
+    }
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
     .App-logo {
         animation: App-logo-spin infinite 20s linear;

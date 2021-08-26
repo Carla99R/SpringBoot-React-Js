@@ -4,15 +4,18 @@ import {PlusOutlined, TeamOutlined} from "@ant-design/icons";
 import React, {useState} from "react";
 import NewClient from "./drawer";
 import Avatar from "antd/es/avatar/avatar";
+import useWindowDimensions from "./windowsDimensions";
 
 const ClientsTable = (props) => {
     const [showDrawer, setShowDrawer] = useState(false);
+    const {height, width} = useWindowDimensions();
+
 
     return (
         <>
             <div className={styles.header}>
-                <Button className={styles.boton} onClick={() => setShowDrawer(!showDrawer)} icon={<PlusOutlined/>}>Add
-                    student</Button>
+                <Button className={styles.boton} onClick={() => setShowDrawer(!showDrawer)} icon={<PlusOutlined/>}><h1
+                    className={styles.hide}>Add student</h1></Button>
                 <div>
                     <Tooltip placement="top" title={"Number of students"}>
                         <Avatar
@@ -35,7 +38,11 @@ const ClientsTable = (props) => {
                 fetchStudents={props.fetchStudents}
             />
             <Divider/>
-            <Table columns={props.cols} dataSource={props.values} scroll={{y: 350}}/>
+            <div className={styles.tabla}>
+                <Table columns={props.cols} dataSource={props.values}
+                       scroll={{y: 350}}/>
+            </div>
+
         </>
     )
 
