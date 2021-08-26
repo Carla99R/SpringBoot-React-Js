@@ -14,6 +14,7 @@ import ClientsTable from '../components/clientsTable';
 import Logo from '../assets/images/logo.svg'
 import LogoComprimido from '../assets/images/switch.svg'
 import useWindowDimensions from "../components/windowsDimensions";
+import Avatar from "antd/es/avatar/avatar";
 
 const Client = () => {
 
@@ -35,7 +36,6 @@ const Client = () => {
     useEffect(async () => {
         console.log("component is mounted");
         await fetchStudents();
-        console.log(width)
     }, [])
 
 
@@ -79,7 +79,6 @@ const Client = () => {
 
         for (let k in data) {
             const value = {}
-
             for (let k2 in data[k]) {
                 if (!validateCols(k2)) {
                     const params = {}
@@ -88,27 +87,33 @@ const Client = () => {
                     params.key = k2
                     cols.push(k2)
                     c.push(params)
+
                 }
                 value[k2] = data[k][k2]
+
             }
             values.push(value)
         }
+        const value = {}
+
+        values.push(value)
+
         setColumns(c)
         setData(values)
     }
 
-    const {height, width} = useWindowDimensions();
+    const {width} = useWindowDimensions();
 
     const sider = () => (
         <>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                <Menu.Item key="1" icon={<PieChartOutlined/>}>
+                <Menu.Item key="1" icon={<TeamOutlined/>}>
                     Students
                 </Menu.Item>
-                <Menu.Item key="2" icon={<DesktopOutlined/>}>
-                    Option 2
+                <Menu.Item key="2" icon={<PieChartOutlined/>}>
+                    Statistics
                 </Menu.Item>
-                <SubMenu key="sub1" icon={<UserOutlined/>} title="User">
+                <SubMenu key="sub1" icon={<TeamOutlined/>} title="User">
                     <Menu.Item key="3">Tom</Menu.Item>
                     <Menu.Item key="4">Bill</Menu.Item>
                     <Menu.Item key="5">Alex</Menu.Item>
