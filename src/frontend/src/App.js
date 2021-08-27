@@ -1,11 +1,14 @@
 import './App.css';
 import React from 'react';
 import Client from './pages/client'
+import StudentState from "./Context/Student/StudentState";
 
 function App() {
     return (
         <>
-           <Client/>
+            <StudentState>
+                <Client/>
+            </StudentState>
         </>
     );
 }

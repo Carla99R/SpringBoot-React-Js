@@ -1,67 +1,41 @@
-import fetch from 'unfetch';
-import React, {useState, useEffect} from 'react'
-import {Layout, Menu, Breadcrumb, Spin, Empty, Tag, Badge} from 'antd';
-import {
-    DesktopOutlined,
-    PieChartOutlined,
-    FileOutlined,
-    TeamOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
-
+import React, {useState, useEffect, useContext} from 'react'
+import {Layout, Menu, Breadcrumb, Spin} from 'antd';
 import styles from '../styles/client.module.css';
 import ClientsTable from '../components/clientsTable';
-import Logo from '../assets/images/logo.svg'
-import LogoComprimido from '../assets/images/switch.svg'
-import useWindowDimensions from "../components/windowsDimensions";
-import Avatar from "antd/es/avatar/avatar";
+import PopConfirm from "../components/popconfirm";
+import StudentContext from "../Context/Student/StudentContext";
+import SiderMenu from "../components/sider";
 
 const Client = () => {
 
-    const {Header, Content, Footer, Sider} = Layout;
+    const {Header, Content, Sider} = Layout;
     const {SubMenu} = Menu;
-    const [students, setStudents] = useState([]);
-    const [collapsed, setCollapsed] = useState(false)
 
     const [columns, setColumns] = useState([]);
     const [loading, setLoading] = useState(true);
-
     const [data, setData] = useState([{}]);
 
+    const {students, allStudents} = useContext(StudentContext);
     let c = []
 
     const cols = []
     const values = []
 
-    useEffect(async () => {
-        console.log("component is mounted");
-        await fetchStudents();
-    }, [])
-
-
-    const checkStatus = response => {
-        if (response.ok) {
-            setLoading(false)
-            return response;
-        }
-        // convert non-2xx HTTP responses into errors:
-        const error = new Error(response.statusText);
-        error.response = response;
-        return Promise.reject(error);
+    const fetchStudents = async () => {
+        await allStudents()
     }
 
-    const getAllStudents = async () =>
-        await fetch("api/v1/students")
-            .then(checkStatus);
+    useEffect(() => {
+        console.log("component is mounted");
+        fetchStudents()
 
-    const fetchStudents = () =>
-        getAllStudents()
-            .then(res => res.json())
-            .then(data => {
-                setStudents(data);
-                setLoading(false)
-                table(data)
-            })
+    }, [])
+
+    useEffect(() => {
+        setLoading(false)
+        table(students)
+
+    }, [students])
 
     const validateCols = (col) => {
         let repeated = false;
@@ -75,21 +49,22 @@ const Client = () => {
         return repeated;
     }
 
-    const table = (data) => {
+    const table = () => {
 
-        for (let k in data) {
+        for (let k in students) {
             const value = {}
-            for (let k2 in data[k]) {
+            value.action = <PopConfirm student={students[k]} fetchStudents={allStudents}/>
+            for (let k2 in students[k]) {
                 if (!validateCols(k2)) {
                     const params = {}
-                    params.title = k2
-                    params.dataIndex = k2
-                    params.key = k2
+                    params.field = k2
+                    params.headerName = k2
+                    params.width = 150
                     cols.push(k2)
                     c.push(params)
 
                 }
-                value[k2] = data[k][k2]
+                value[k2] = students[k][k2]
 
             }
             values.push(value)
@@ -98,59 +73,22 @@ const Client = () => {
 
         values.push(value)
 
+        const params = {}
+        params.field = "action"
+        params.headerName = "action"
+        params.width = 150
+        cols.push("action")
+        c.push(params)
+
         setColumns(c)
         setData(values)
     }
 
-    const {width} = useWindowDimensions();
-
-    const sider = () => (
-        <>
-            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                <Menu.Item key="1" icon={<TeamOutlined/>}>
-                    Students
-                </Menu.Item>
-                <Menu.Item key="2" icon={<PieChartOutlined/>}>
-                    Statistics
-                </Menu.Item>
-                <SubMenu key="sub1" icon={<TeamOutlined/>} title="User">
-                    <Menu.Item key="3">Tom</Menu.Item>
-                    <Menu.Item key="4">Bill</Menu.Item>
-                    <Menu.Item key="5">Alex</Menu.Item>
-                </SubMenu>
-                <SubMenu key="sub2" icon={<TeamOutlined/>} title="Team">
-                    <Menu.Item key="6">Team 1</Menu.Item>
-                    <Menu.Item key="8">Team 2</Menu.Item>
-                </SubMenu>
-                <Menu.Item key="9" icon={<FileOutlined/>}>
-                    Files
-                </Menu.Item>
-            </Menu>
-        </>
-    )
 
     return (
         <>
             <Layout style={{minHeight: '100vh'}}>
-                {width <= 700 ?
-                    <Sider
-                        collapsed={true}>
-                        <div className={styles.logo}>
-                            <img src={LogoComprimido} alt={"logo"} width={40} height={50}/>
-                        </div>
-                        {sider()}
-                    </Sider> :
-                    <Sider
-                        collapsible collapsed={collapsed}
-                        onCollapse={setCollapsed}
-                    >
-                        <div className={styles.logo}>
-                            {collapsed ? <img src={LogoComprimido} alt={"logo"} width={40} height={50}/> :
-                                <img src={Logo} alt={"logo"} width={100} height={50}/>}
-                        </div>
-                        {sider()}
-                    </Sider>
-                }
+                <SiderMenu/>
                 <Header className={styles.bg} style={{padding: 0}}/>
                 <Content style={{margin: '16px 20px'}}>
                     <Breadcrumb style={{margin: '16px 0'}}>
@@ -163,12 +101,11 @@ const Client = () => {
                                 <Spin tip="Loading..." size="large"/>
                             </div>
                             :
-                            <ClientsTable cols={columns} values={data} fetchStudents={fetchStudents}
+                            <ClientsTable cols={columns} values={data} fetchStudents={allStudents}
                                           students={students.length}/>
                         }
                     </div>
                 </Content>
-                {/*<Footer style={{textAlign: 'center'}}>By Carla Rodríguez (2021)</Footer>*/}
             </Layout>
 
         </>

@@ -8,6 +8,7 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
     "antd": "^4.13.0",
+    "axios": "^0.21.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",
@@ -40,6 +41,9 @@
   },
   "proxy": "http://localhost:8080",
   "devDependencies": {
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/data-grid": "^4.0.0-alpha.37",
+    "prop-types": "^15.7.2",
     "react-hook-form": "^7.13.0"
   }
 }

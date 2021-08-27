@@ -127,3 +127,13 @@ h1 {
     height: 80%;
 }
 
+Table, TableCell {
+    border-collapse: collapse;
+}
+
+TableCell {
+    border: 1px solid black;
+    border-top: none;
+    border-bottom: none;
+}
+
