@@ -9,9 +9,7 @@ import Avatar from "antd/es/avatar/avatar";
 import {
     IconButton,
     TableBody,
-    TableCell,
-    TableContainer,
-    TableFooter,
+    TableCell, TableContainer,
     TableHead,
     TablePagination,
     TableRow, useTheme
@@ -137,7 +135,6 @@ const ClientsTable = (props) => {
             borderTop: 'none',
             borderBottom: 'none',
             borderCollapse: 'collapse'
-
         },
         pagination: {
             borderTop: 'none',
@@ -190,6 +187,7 @@ const ClientsTable = (props) => {
                     showDrawer={showDrawer}
                     setShowDrawer={setShowDrawer}
                     fetchStudents={props.fetchStudents}
+                    addStudents={props.add}
                 />
                 <Divider/>
 
@@ -198,32 +196,35 @@ const ClientsTable = (props) => {
                         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>
                     </div> :
                     <div>
-                        <Table className={classes.table} aria-label="custom pagination table" pagination>
-                            <TableHead>
-                                <TableRow>
-                                    {props.cols && columns()}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {props.values && data()}
-                                <TablePagination
-                                    rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
-                                    colSpan={12}
-                                    count={props.values.length}
-                                    rowsPerPage={5}
-                                    page={page}
-                                    SelectProps={{
-                                        inputProps: {'aria-label': 'rows per page'},
-                                        native: true
-                                    }}
-                                    onPageChange={handleChangePage}
-                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                    ActionsComponent={TablePaginationActions}
-                                    className={classes.pagination}
-                                />
-                            </TableBody>
+                        <TableContainer>
+                            <Table className={classes.table} aria-label="custom pagination table" pagination>
+                                <TableHead>
+                                    <TableRow>
+                                        {props.cols && columns()}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {props.values && data()}
+                                    <TablePagination
+                                        rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
+                                        colSpan={12}
+                                        count={props.values.length}
+                                        rowsPerPage={5}
+                                        page={page}
+                                        SelectProps={{
+                                            inputProps: {'aria-label': 'rows per page'},
+                                            native: true
+                                        }}
+                                        onPageChange={handleChangePage}
+                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                        ActionsComponent={TablePaginationActions}
+                                        className={classes.pagination}
+                                    />
+                                </TableBody>
 
-                        </Table>
+                            </Table>
+                        </TableContainer>
+
                     </div>}
 
             </div>

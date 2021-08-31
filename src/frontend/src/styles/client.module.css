@@ -22,10 +22,12 @@
         padding-left: 5%;
     }
 
+
 }
 
 .bg {
     background: #fff;
+    height: 80vh;
 }
 
 .logo {
@@ -124,16 +126,11 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80%;
+    height: 100%;
 }
 
-Table, TableCell {
+
+Table {
     border-collapse: collapse;
-}
-
-TableCell {
-    border: 1px solid black;
-    border-top: none;
-    border-bottom: none;
 }
 

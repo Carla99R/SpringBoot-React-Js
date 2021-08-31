@@ -1,12 +1,10 @@
 import {Drawer, Form, Button, Col, Row, Input, Select, Divider} from 'antd';
 import styles from '../styles/client.module.css';
-import React, {Component, useState} from "react";
-import fetch from "unfetch";
-import {successNotification, errorNotification} from "./notification";
+import React, {useState} from "react";
+import {successNotification, errorNotification, warningNotification} from "./notification";
 import useWindowDimensions from "./windowsDimensions";
 
 const {Option} = Select;
-
 
 const NewClient = (props) => {
     const [state, setState] = useState({
@@ -22,48 +20,45 @@ const NewClient = (props) => {
         form.resetFields()
     };
 
-
-    const addNewStudent = (student) => {
+    const addNewStudent = async (student) => {
         setState({loading: true})
-        fetch("api/v1/students", {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(student)
-        }).then(() => {
-            console.log("student added")
+        try {
+            await props.addStudents(student)
             setState({loading: false})
             onClose()
-            props.fetchStudents()
             successNotification(
-                "Student successfully added",
-                `${student.name} was added to the system`)
-        }).catch(err => {
-            console.log(err)
+                `${state.name} successfully deleted`,
+                `${state.name} was deleted from the system`)
+        } catch (ex) {
             setState({loading: false})
             errorNotification(
-                "Student could not be added",
-                `${student.name} could not be added to the system`)
-        })
+                `Status ${ex.response.status}`,
+                `${ex.response.statusText}`)
+        }
     }
 
-    const onFinish = (student) => {
+    const onFinish = async (student) => {
         console.log(JSON.stringify(student, null, 2));
-        addNewStudent(student)
+        await addNewStudent(student)
     };
 
     const onFinishFailed = errorInfo => {
-        alert(JSON.stringify(errorInfo, null, 2));
+        for (let i = 0; i < errorInfo.errorFields.length; i++) {
+            warningNotification(
+                "Be careful",
+                errorInfo.errorFields[i].errors[0]
+            )
+        }
     };
 
     const handleChange = e => {
         setState({
+            ...state,
             [e.target.name]: e.target.value
         })
     }
 
-    const {height, width} = useWindowDimensions();
+    const {width} = useWindowDimensions();
 
     return (
         <>

@@ -14,7 +14,11 @@ public class StudentController {
 
     @GetMapping
     public List<Student> getAllStudents() {
-        return studentService.getAllStudents();
+        try {
+            return studentService.getAllStudents();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     @GetMapping(path = "{studentId}")

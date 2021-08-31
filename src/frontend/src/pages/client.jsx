@@ -1,21 +1,21 @@
 import React, {useState, useEffect, useContext} from 'react'
-import {Layout, Menu, Breadcrumb, Spin} from 'antd';
+import {Layout, Menu, Breadcrumb, Spin, Empty} from 'antd';
 import styles from '../styles/client.module.css';
 import ClientsTable from '../components/clientsTable';
 import PopConfirm from "../components/popconfirm";
 import StudentContext from "../Context/Student/StudentContext";
 import SiderMenu from "../components/sider";
+import {errorNotification, successNotification} from "../components/notification";
 
 const Client = () => {
 
-    const {Header, Content, Sider} = Layout;
-    const {SubMenu} = Menu;
+    const {Header, Content} = Layout;
 
     const [columns, setColumns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([{}]);
 
-    const {students, allStudents} = useContext(StudentContext);
+    const {students, allStudents, addStudents, deleteStudents, error} = useContext(StudentContext);
     let c = []
 
     const cols = []
@@ -33,6 +33,12 @@ const Client = () => {
 
     useEffect(() => {
         setLoading(false)
+        if (error !== null) {
+            errorNotification(
+                `Status ${error.status}`,
+                `${error.statusText}`)
+        }
+
         table(students)
 
     }, [students])
@@ -53,7 +59,7 @@ const Client = () => {
 
         for (let k in students) {
             const value = {}
-            value.action = <PopConfirm student={students[k]} fetchStudents={allStudents}/>
+            value.action = <PopConfirm student={students[k]} deleteStudent={deleteStudents}/>
             for (let k2 in students[k]) {
                 if (!validateCols(k2)) {
                     const params = {}
@@ -101,8 +107,14 @@ const Client = () => {
                                 <Spin tip="Loading..." size="large"/>
                             </div>
                             :
-                            <ClientsTable cols={columns} values={data} fetchStudents={allStudents}
-                                          students={students.length}/>
+                            error !== null ?
+                                <div className={styles.tabla} id={styles.empty}>
+                                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>
+                                </div>
+                                :
+                                <ClientsTable cols={columns} values={data}
+                                              students={students.length} add={addStudents}/>
+
                         }
                     </div>
                 </Content>

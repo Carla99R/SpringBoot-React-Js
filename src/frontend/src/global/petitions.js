@@ -4,7 +4,13 @@ import axios from "axios";
 export const deleteStudent = async (studentId) => {
     const res = await axios.delete(`api/v1/students/${studentId}`)
     checkStatus(res)
-    return res.data;
+    return getStudents();
+}
+
+export const addStudent = async (student) => {
+    const res = await axios.post(`api/v1/students`, student)
+    checkStatus(res)
+    return getStudents();
 }
 
 export const getStudent = async (studentId) => {
