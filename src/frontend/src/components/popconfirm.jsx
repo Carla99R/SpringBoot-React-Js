@@ -1,14 +1,18 @@
 import {Popconfirm} from 'antd';
 import {errorNotification, successNotification} from "./notification";
+import {useContext} from "react";
+import StudentContext from "../Context/Student/StudentContext";
 
 const PopConfirm = (props) => {
 
+    const {error} = useContext(StudentContext);
+
+
     const confirm = async (e) => {
         try {
-            await props.deleteStudent(props.student.id)
-            successNotification(
-                `${props.student.name} successfully deleted`,
-                `${props.student.name} was deleted from the system`)
+            await props.deleteStudent(props.student)
+            console.log(error)
+
         } catch (ex) {
             errorNotification(
                 `Status ${ex.response.status}`,

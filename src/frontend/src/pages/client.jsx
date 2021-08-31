@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
-import {Layout, Menu, Breadcrumb, Spin, Empty} from 'antd';
+import {Layout, Breadcrumb, Spin, Empty} from 'antd';
 import styles from '../styles/client.module.css';
 import ClientsTable from '../components/clientsTable';
 import PopConfirm from "../components/popconfirm";
@@ -15,7 +15,15 @@ const Client = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([{}]);
 
-    const {students, allStudents, addStudents, deleteStudents, error} = useContext(StudentContext);
+    const {
+        students,
+        allStudents,
+        addStudents,
+        deleteStudents,
+        error,
+        message,
+        description
+    } = useContext(StudentContext);
     let c = []
 
     const cols = []
@@ -34,14 +42,21 @@ const Client = () => {
     useEffect(() => {
         setLoading(false)
         if (error !== null) {
+            // fetchStudents()
             errorNotification(
-                `Status ${error.status}`,
-                `${error.statusText}`)
+                `[${error.status}] ${error.statusText}`,
+                `${error.data.message}`)
+
+        } else if (message !== undefined && description !== undefined) {
+            successNotification(
+                `${message}`,
+                `${description}`)
         }
 
         table(students)
 
     }, [students])
+
 
     const validateCols = (col) => {
         let repeated = false;
@@ -59,7 +74,9 @@ const Client = () => {
 
         for (let k in students) {
             const value = {}
-            value.action = <PopConfirm student={students[k]} deleteStudent={deleteStudents}/>
+            value.action =
+                <PopConfirm student={students[k]} deleteStudent={deleteStudents} fetchStudents={allStudents}
+                            error={error}/>
             for (let k2 in students[k]) {
                 if (!validateCols(k2)) {
                     const params = {}
@@ -107,13 +124,14 @@ const Client = () => {
                                 <Spin tip="Loading..." size="large"/>
                             </div>
                             :
-                            error !== null ?
-                                <div className={styles.tabla} id={styles.empty}>
-                                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>
-                                </div>
-                                :
-                                <ClientsTable cols={columns} values={data}
-                                              students={students.length} add={addStudents}/>
+                            // error !== null && error.status === 500 ?
+                            //     <div className={styles.tabla} id={styles.empty}>
+                            //         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>
+                            //     </div>
+                            //     :
+                            <ClientsTable cols={columns} values={data}
+                                          students={students.length} add={addStudents} error={error}
+                                          fetchStudents={allStudents}/>
 
                         }
                     </div>

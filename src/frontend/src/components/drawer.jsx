@@ -20,15 +20,14 @@ const NewClient = (props) => {
         form.resetFields()
     };
 
+
     const addNewStudent = async (student) => {
         setState({loading: true})
         try {
             await props.addStudents(student)
             setState({loading: false})
             onClose()
-            successNotification(
-                `${state.name} successfully deleted`,
-                `${state.name} was deleted from the system`)
+
         } catch (ex) {
             setState({loading: false})
             errorNotification(
@@ -45,7 +44,7 @@ const NewClient = (props) => {
     const onFinishFailed = errorInfo => {
         for (let i = 0; i < errorInfo.errorFields.length; i++) {
             warningNotification(
-                "Be careful",
+                "Be carefull",
                 errorInfo.errorFields[i].errors[0]
             )
         }

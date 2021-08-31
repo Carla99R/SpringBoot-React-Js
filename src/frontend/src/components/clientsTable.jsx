@@ -188,6 +188,7 @@ const ClientsTable = (props) => {
                     setShowDrawer={setShowDrawer}
                     fetchStudents={props.fetchStudents}
                     addStudents={props.add}
+                    error={props.error}
                 />
                 <Divider/>
 

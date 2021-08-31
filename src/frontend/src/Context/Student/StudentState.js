@@ -33,36 +33,43 @@ const StudentState = (props) => {
 
     const addStudents = async (student) => {
         try {
-            const res = await addStudent(student)
+            await addStudent(student)
             dispatch({
                 type: 'ADD_STUDENT',
-                payload: res,
-                error: null
+                payload: await getStudents(),
+                error: null,
+                message: `${student.name} successfully added`,
+                description: `${student.name} was added to the system`
             })
         } catch (e) {
-            console.log(e.response)
             dispatch({
                 type: 'ADD_STUDENT',
-                payload: "",
-                error: e.response
+                payload: await getStudents(),
+                error: e.response,
+                message: null,
+                description: null
             })
         }
     }
 
-    const deleteStudents = async (studentId) => {
+    const deleteStudents = async (student) => {
         try {
-            const res = await deleteStudent(studentId)
+            await deleteStudent(student.id)
             dispatch({
                 type: 'DELETE_STUDENT',
-                payload: res,
-                error: null
+                payload: await getStudents(),
+                error: null,
+                message: `${student.name} successfully deleted`,
+                description: `${student.name} was deleted from the system`
             })
         } catch (e) {
             console.log(e.response)
             dispatch({
                 type: 'DELETE_STUDENT',
-                payload: "",
-                error: e.response
+                payload: await getStudents(),
+                error: e.response,
+                message: null,
+                description: null
             })
         }
     }
@@ -80,6 +87,8 @@ const StudentState = (props) => {
             students: state.students,
             selectedStudent: state.selectedStudent,
             error: state.error,
+            message: state.message,
+            description: state.description,
             allStudents,
             IdStudent,
             addStudents,
