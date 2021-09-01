@@ -198,7 +198,7 @@ const ClientsTable = (props) => {
                     </div> :
                     <div>
                         <TableContainer>
-                            <Table className={classes.table} aria-label="custom pagination table" pagination>
+                            <Table className={classes.table} aria-label="custom pagination table">
                                 <TableHead>
                                     <TableRow>
                                         {props.cols && columns()}

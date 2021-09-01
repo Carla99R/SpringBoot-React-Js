@@ -42,7 +42,6 @@ const Client = () => {
     useEffect(() => {
         setLoading(false)
         if (error !== null) {
-            // fetchStudents()
             errorNotification(
                 `[${error.status}] ${error.statusText}`,
                 `${error.data.message}`)
