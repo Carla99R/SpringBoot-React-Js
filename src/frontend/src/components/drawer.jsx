@@ -70,7 +70,7 @@ const NewClient = (props) => {
                 width={width <= 700 ? width : 500}
                 onClose={onClose}
                 visible={props.showDrawer}
-                bodyStyle={{paddingBottom: 90, overflow: 'hidden'}}
+                bodyStyle={{paddingBottom: 90, overflow: 'scroll'}}
             >
                 <div className={styles.client}>
                     <img
